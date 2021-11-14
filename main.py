@@ -226,11 +226,12 @@ def main(args):
                      **{f'test_{k}': v for k, v in test_stats.items()},
                      'epoch': epoch,
                      'n_parameters': n_parameters}
-        if epoch % 10 == 0:
-            for key, value in log_stats.items():
-                if 'coco_eval_bbox' in key:
-                    continue
-                logger.report_scalar(title=key, series=key, value=value, iteration=epoch)
+
+        # ClearML Logging of important parameters
+        for key, value in log_stats.items():
+            if 'coco_eval_bbox' in key:
+                continue
+            logger.report_scalar(title=key, series=key, value=value, iteration=epoch)
 
         if args.output_dir and utils.is_main_process():
             with (output_dir / "log.txt").open("a") as f:
