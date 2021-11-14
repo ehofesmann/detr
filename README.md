@@ -2,6 +2,10 @@
 ========
 This fork is a simple tool to finetune a DETR model. The *finetune_detr.ipynb* notebook is the simplest solution to this.
 
+## ClearML
+As an example we can use a toy dataset of dragons to train our own dragon (detector). We get the data from the clearML servers in the notebook.
+ClearML experiment tracking is also added to make sure we can keep a nice overview throughout multiple runs.
+
 ## Requirements
 
 * It is a good idea to have a CUDA-capable GPU and a correctly configured nvidia/CUDA setup
@@ -10,7 +14,7 @@ This fork is a simple tool to finetune a DETR model. The *finetune_detr.ipynb* n
 
 ## Parameters
 
-The main script, main.py, has a variety of parameters available that can be changed to suit your needs. The main ones we are interested in are already shown in *finetune_detr.ipynb*. However, everything is up to you. For example, you could change the backbone model by simply changing the url that fetches the checkpoint and change the constructor's backbone using the `--backbone` argument to match. You could completely skip the finetuning bit and retrain a DETR model from scratch by simply setting `pretrained = False` in the "Load a model" block. 
+The main script, main.py, has a variety of parameters available that can be changed to suit your needs. The main ones we are interested in are already shown in *finetune_detr.ipynb*. However, everything is up to you. For example, you could change the backbone model by simply changing the url that fetches the checkpoint and change the constructor's backbone using the `--backbone` argument to match. You could completely skip the finetuning bit and retrain a DETR model from scratch by simply setting `pretrained = False` in the "Load a model" block.
 
 **DE⫶TR**: End-to-End Object Detection with Transformers
 ========
@@ -19,7 +23,7 @@ We replace the full complex hand-crafted object detection pipeline with a Transf
 
 ![DETR](.github/DETR.png)
 
-**What it is**. Unlike traditional computer vision techniques, DETR approaches object detection as a direct set prediction problem. It consists of a set-based global loss, which forces unique predictions via bipartite matching, and a Transformer encoder-decoder architecture. 
+**What it is**. Unlike traditional computer vision techniques, DETR approaches object detection as a direct set prediction problem. It consists of a set-based global loss, which forces unique predictions via bipartite matching, and a Transformer encoder-decoder architecture.
 Given a fixed small set of learned object queries, DETR reasons about the relations of the objects and the global image context to directly output the final set of predictions in parallel. Due to this parallel nature, DETR is very fast and efficient.
 
 **About the code**. We believe that object detection should not be more difficult than classification,
@@ -203,7 +207,7 @@ path/to/coco/
 ## Training
 To train baseline DETR on a single node with 8 gpus for 300 epochs run:
 ```
-python -m torch.distributed.launch --nproc_per_node=8 --use_env main.py --coco_path /path/to/coco 
+python -m torch.distributed.launch --nproc_per_node=8 --use_env main.py --coco_path /path/to/coco
 ```
 A single epoch takes 28 minutes, so 300 epoch training
 takes around 6 days on a single machine with 8 V100 cards.

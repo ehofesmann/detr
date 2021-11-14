@@ -16,6 +16,11 @@ from datasets import build_dataset, get_coco_api_from_dataset
 from engine import evaluate, train_one_epoch
 from models import build_model
 
+# Initialise a clearML task and its corresponding logger
+from clearml import Task
+task = Task.init(project_name='dragon_detector', task_name=f'DETR')
+logger = task.get_logger()
+
 
 def get_args_parser():
     parser = argparse.ArgumentParser('Set transformer detector', add_help=False)
@@ -221,6 +226,11 @@ def main(args):
                      **{f'test_{k}': v for k, v in test_stats.items()},
                      'epoch': epoch,
                      'n_parameters': n_parameters}
+        if epoch % 10 == 0:
+            for key, value in log_stats.items():
+                if 'coco_eval_bbox' in key:
+                    continue
+                logger.report_scalar(title=key, series=key, value=value, iteration=epoch)
 
         if args.output_dir and utils.is_main_process():
             with (output_dir / "log.txt").open("a") as f:
