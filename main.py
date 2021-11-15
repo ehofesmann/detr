@@ -6,7 +6,7 @@ import random
 import time
 from pathlib import Path
 
-import matplotlib.pyplot as plt
+from util.plot_utils import run_visual_validation
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, DistributedSampler
@@ -260,3 +260,4 @@ if __name__ == '__main__':
     if args.output_dir:
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
     main(args)
+    run_visual_validation(args)
