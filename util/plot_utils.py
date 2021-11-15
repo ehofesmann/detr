@@ -107,12 +107,12 @@ def plot_precision_recall(files, naming_scheme='iter'):
     return fig, axs
 
 
-def plot_image_results(pil_img, prob, boxes, classes):
+def plot_image_results(pil_img, prob, boxes, classes, logger, img_name):
     # colors for visualization
     colors = [[0.000, 0.447, 0.741], [0.850, 0.325, 0.098], [0.929, 0.694, 0.125],
               [0.494, 0.184, 0.556], [0.466, 0.674, 0.188], [0.301, 0.745, 0.933]]
     colors = colors * 100
-    plt.figure(figsize=(16,10))
+    figure = plt.figure(figsize=(16,10))
     plt.imshow(pil_img)
     ax = plt.gca()
     for p, (xmin, ymin, xmax, ymax), c in zip(prob, boxes.tolist(), colors):
@@ -123,4 +123,6 @@ def plot_image_results(pil_img, prob, boxes, classes):
         ax.text(xmin, ymin, text, fontsize=15,
                 bbox=dict(facecolor='yellow', alpha=0.5))
     plt.axis('off')
-    plt.close()
+    logger.report_matplotlib_figure('Evaluation Results', img_name, figure,
+                                    iteration=None, report_image=True,
+                                    report_interactive=False)

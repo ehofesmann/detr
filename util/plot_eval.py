@@ -27,11 +27,11 @@ def filter_bboxes_from_outputs(outputs,
 
   # convert boxes from [0; 1] to image scales
   bboxes_scaled = rescale_bboxes(outputs['pred_boxes'][0, keep],
-                                 im.size)
+                                 im.size()[2:])
 
   return probas_to_keep, bboxes_scaled
 
-def run_visual_validation_workflow(my_image, my_model):
+def run_visual_validation_workflow(my_image, my_model, classes, logger, img_name):
   # mean-std normalize the input image (batch-size: 1)
   img = transform(my_image).unsqueeze(0)
 
@@ -46,10 +46,13 @@ def run_visual_validation_workflow(my_image, my_model):
 
     plot_image_results(my_image,
                        probas_to_keep,
-                       bboxes_scaled)
+                       bboxes_scaled,
+                       classes,
+                       logger,
+                       img_name)
 
 
-def run_visual_validation(args):
+def run_visual_validation(args, classes, logger):
     # Get the model ready
     model = torch.hub.load('facebookresearch/detr',
                            'detr_resnet50',
@@ -66,4 +69,4 @@ def run_visual_validation(args):
     val_folder = Path(args.coco_path) / 'val'
     for img_name in os.listdir(val_folder):
         im = Image.open(Path(val_folder) / img_name)
-        run_visual_validation_workflow(im, model)
+        run_visual_validation_workflow(im, model, classes, logger, img_name)
