@@ -4,8 +4,8 @@ import os
 import torch
 from PIL import Image
 import torchvision.transforms as T
-from plot_utils import plot_image_results
-from box_ops import rescale_bboxes
+from util.plot_utils import plot_image_results
+from util.box_ops import rescale_bboxes
 
 # standard PyTorch mean-std input image normalization
 transform = T.Compose([
