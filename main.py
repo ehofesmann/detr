@@ -6,13 +6,13 @@ import random
 import time
 from pathlib import Path
 
-from util.plot_utils import run_visual_validation
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, DistributedSampler
 
 import datasets
 import util.misc as utils
+from util.plot_utils import plot_image_results
 from datasets import build_dataset, get_coco_api_from_dataset
 from engine import evaluate, train_one_epoch
 from models import build_model
@@ -260,4 +260,4 @@ if __name__ == '__main__':
     if args.output_dir:
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
     main(args)
-    run_visual_validation(args)
+    plot_image_results(args)
