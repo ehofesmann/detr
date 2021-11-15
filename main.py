@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader, DistributedSampler
 
 import datasets
 import util.misc as utils
-from util.plot_utils import plot_image_results
+from util.plot_eval import run_visual_validation
 from datasets import build_dataset, get_coco_api_from_dataset
 from engine import evaluate, train_one_epoch
 from models import build_model
@@ -260,4 +260,4 @@ if __name__ == '__main__':
     if args.output_dir:
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
     main(args)
-    plot_image_results(args)
+    run_visual_validation(args)
