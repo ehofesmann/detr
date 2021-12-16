@@ -123,6 +123,7 @@ def plot_image_results(pil_img, prob, boxes, classes, logger, img_name):
         ax.text(xmin, ymin, text, fontsize=15,
                 bbox=dict(facecolor='yellow', alpha=0.5))
     plt.axis('off')
+    plt.savefig(img_name)
     logger.report_matplotlib_figure('Evaluation Results', img_name, figure,
                                     iteration=None, report_image=True,
                                     report_interactive=False)

@@ -38,18 +38,16 @@ def run_visual_validation_workflow(my_image, my_model, classes, logger, img_name
   # propagate through the model
   outputs = my_model(img)
 
-  for threshold in [0.7, 0.35]:
+  probas_to_keep, bboxes_scaled = filter_bboxes_from_outputs(outputs,
+                                                             img,
+                                                             threshold=0.35)
 
-    probas_to_keep, bboxes_scaled = filter_bboxes_from_outputs(outputs,
-                                                               img,
-                                                               threshold=threshold)
-
-    plot_image_results(my_image,
-                       probas_to_keep,
-                       bboxes_scaled,
-                       classes,
-                       logger,
-                       img_name)
+  plot_image_results(my_image,
+                     probas_to_keep,
+                     bboxes_scaled,
+                     classes,
+                     logger,
+                     img_name)
 
 
 def run_visual_validation(args, classes, logger):
